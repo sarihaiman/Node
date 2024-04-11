@@ -1,4 +1,4 @@
-const checkBode = (req, res, next) => {
+const checkBode = ((req, res, next) => {
   console.log('Request Type:', req.method)
   if ((req.method == 'POST' || req.method == 'PUT') && JSON.stringify(req.body) === '{}') {
     next('router')
@@ -6,5 +6,5 @@ const checkBode = (req, res, next) => {
     next()
   }
 }
-
+)
 module.exports = checkBode

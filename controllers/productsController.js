@@ -5,8 +5,8 @@ const categoryModel = require('../services/categories.js')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-async function requireProducts () {
-  app.get('/product/:category', async (req, res) => {
+
+  const getproduct=async (req, res) => {
     const products = await categoryModel.find()
     let arr = products.find(p => p.category === String(req.params.category))
     if (!arr) {
@@ -14,10 +14,11 @@ async function requireProducts () {
       return
     }
     arr = arr.products
-    res.send(arr.toSorted((a, b) => a.name.localeCompare(b.name)))
-  })
+    // res.send(arr.toSorted((a, b) => a.name.localeCompare(b.name))) addddddddddddd
+    res.send(arr)
+  }
 
-  app.get('/product/:category/:id', async (req, res) => {
+  const getProductById=async (req, res) => {
     const products = await categoryModel.find()
     let arr = products.find(p => p.category === req.params.category)
     if (!arr) {
@@ -31,15 +32,15 @@ async function requireProducts () {
       res.status(404).send('product not found')
     }
     res.send(product)
-  })
+  }
 
-  app.post('/product/:category', async (req, res) => {
+  const postProductasync =(req, res) => {
     const { Product } = require('../models/Product')
     const p = new Product(Number(req.body.id), req.body.name)
     p.save(req, res)
-  })
+  }
 
-  app.delete('/product/:category/:id', async (req, res) => {
+  const deleteProduct=async (req, res) => {
     try {
       const products = await categoryModel.find()
       let arr = products.find(p => p.category === req.params.category)
@@ -61,9 +62,9 @@ async function requireProducts () {
       console.error(err)
     }
     res.send('Delete!')
-  })
+  }
 
-  app.put('/product/:category', async (req, res) => {
+  const putProduct=async (req, res) => {
     try {
       const products = await categoryModel.find()
       let arr = products.find(p => p.category === req.params.category)
@@ -90,9 +91,7 @@ async function requireProducts () {
     } catch (err) {
       res.send('error!!!')
     }
-  })
-}
+  }
 
-requireProducts()
 
-module.exports = app
+module.exports = {getProductById,getproduct,postProductasync,putProduct,deleteProduct}
