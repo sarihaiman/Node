@@ -9,8 +9,8 @@ async function main () {
 const Schema = mongoose.Schema
 
 const usersSchema = new Schema({
-  email: { type: String },
   name: { type: String },
+  email: { type: String },
   password: { type: String },
   dob: { type: String }
 })
